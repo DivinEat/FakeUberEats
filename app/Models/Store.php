@@ -2,8 +2,7 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Jenssegers\Mongodb\Eloquent\Model;
 
 class Store extends Model
 {

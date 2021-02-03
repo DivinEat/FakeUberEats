@@ -2,6 +2,7 @@
 
 /** @var \Laravel\Lumen\Routing\Router $router */
 
+
 $router->group(['prefix' => '/eats'], function () use ($router) {
     $router->group(['prefix' => '/stores'], function () use ($router) {
         $router->get('/', 'StoreController@all');
@@ -37,3 +38,5 @@ $router->group(['prefix' => '/eats'], function () use ($router) {
         $router->patch('/cart', 'OrderController@cancel');
     });
 });
+
+$router->get('/', function () { echo 'dd';});
