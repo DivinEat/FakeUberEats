@@ -7,7 +7,7 @@ $router->group(['prefix' => '/eats'], function () use ($router) {
     $router->group(['prefix' => '/stores'], function () use ($router) {
         $router->get('/', 'StoreController@all');
 
-        $router->group(['prefix' => '{store_id}'], function () use ($router) {
+        $router->group(['prefix' => '{storeID}'], function () use ($router) {
             $router->get('/', 'StoreController@get');
 
             $router->get('/status', 'StoreController@getStatus');

@@ -65,7 +65,7 @@ class StoreController extends Controller
         if ($store === null)
             return response()->json(['error' => 'Store not found'], 404);
 
-        return response()->json($store->restaurantStatus()->limit(1));
+        return response()->json($store->restaurantStatus()->latest()->first());
     }
 
     /**
@@ -111,7 +111,7 @@ class StoreController extends Controller
         if ($store === null)
             return response()->json(['error' => 'Store not found'], 404);
 
-        return response()->json(['holiday_hours' => $store->holidayHours()]);
+        return response()->json(['holiday_hours' => $store->holidayHours()->get()]);
     }
 
     /**
@@ -125,8 +125,8 @@ class StoreController extends Controller
     {
         $this->validate($request, [
             'holiday_hours' => 'required',
-            'holiday_hours.*.open_time_periods.start_time' => 'required|string',
-            'holiday_hours.*.open_time_periods.end_time' => 'required|string',
+            'holiday_hours.*.open_time_periods.*.start_time' => 'required|string',
+            'holiday_hours.*.open_time_periods.*.end_time' => 'required|string',
         ]);
 
         /** @var Store $store */
@@ -135,10 +135,7 @@ class StoreController extends Controller
         if ($store === null)
             return response()->json(['error' => 'Store not found'], 404);
 
-        foreach ($request->get('holiday_hours') as $item => $value)
-            $store->holidayHours()->create([
-                'content' => json_encode([$item => $value])
-            ]);
+        $store->holidayHours()->create($request->get('holiday_hours'));
 
         return response()->json([], 200);
     }

@@ -3,16 +3,21 @@
 namespace App\Models;
 
 use Jenssegers\Mongodb\Eloquent\Model;
+use Jenssegers\Mongodb\Relations\EmbedsMany;
 
 class Store extends Model
 {
-    public function restaurantStatus(): HasMany
+    protected $primaryKey = 'store_id';
+
+    protected $guarded = [];
+
+    public function restaurantStatus(): EmbedsMany
     {
-        return $this->hasMany(RestaurantStatus::class);
+        return $this->embedsMany(RestaurantStatus::class, 'store_id');
     }
 
-    public function holidayHours(): HasMany
+    public function holidayHours(): EmbedsMany
     {
-        return $this->hasMany(HolidayHour::class);
+        return $this->embedsMany(HolidayHour::class, 'store_id');
     }
 }

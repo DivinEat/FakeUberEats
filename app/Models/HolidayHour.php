@@ -7,4 +7,5 @@ use Jenssegers\Mongodb\Eloquent\Model;
 
 class HolidayHour extends Model
 {
+    protected $guarded = [];
 }
