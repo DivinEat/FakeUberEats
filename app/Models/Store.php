@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Jenssegers\Mongodb\Eloquent\Model;
 use Jenssegers\Mongodb\Relations\EmbedsMany;
+use Jenssegers\Mongodb\Relations\HasMany;
 
 class Store extends Model
 {
@@ -19,5 +20,20 @@ class Store extends Model
     public function holidayHours(): EmbedsMany
     {
         return $this->embedsMany(HolidayHour::class, 'store_id');
+    }
+
+    public function menus(): HasMany
+    {
+        return $this->hasMany(Menu::class, 'store_id');
+    }
+
+    public function categories(): HasMany
+    {
+        return $this->hasMany(Category::class, 'store_id');
+    }
+
+    public function items(): HasMany
+    {
+        return $this->hasMany(Item::class, 'store_id');
     }
 }

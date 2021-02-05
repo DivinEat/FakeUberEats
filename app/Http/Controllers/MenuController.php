@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Menu;
 use App\Models\Store;
-use http\Env\Request;
+use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
 class MenuController extends Controller
@@ -26,19 +26,46 @@ class MenuController extends Controller
         if ($store === null)
             return response()->json(['error' => 'Store not found'], 404);
 
-        return response()->json(Menu::all()->where('menu_type', $menuType));
+        return response()->json(Menu::all()->where('menu_type', $menuType)->get());
     }
 
-    public function upload(string $storeID, Request$request)
+    public function upload(string $storeID, Request $request)
     {
         $this->validate($request, [
             'menus' => 'required|array',
+            'menus.*.title' => 'required|string',
+            'menus.*.subtitle' => 'sometimes|string',
+            'menus.*.service_availability' => 'sometimes|array',
+            'menus.*.service_availability.*.day_of_week' => [
+                'sometimes',
+                Rule::in('monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday')
+            ],
+            'menus.*.category_ids' => 'required|array',
+            'menus.*.category_ids.*' => 'string',
+
             'categories' => 'required|array',
-            'items' => 'required|array',
-            'modifier_groups' => 'required|array',
-            'display_options' => 'required',
-            'menu_type' => [
+            'categories.*.title' => 'required|string',
+            'categories.*.subtitle' => 'required|string',
+            'categories.*.entities' => 'required|array',
+            'categories.*.entities.*.id' => 'required|string',
+            'categories.*.entities.*.type' => [
                 'required',
+                Rule::in('ITEM', 'MODIFIER_GROUP')
+            ],
+
+            'items' => 'required|array',
+            'items.*.title' => 'required|string',
+            'items.*.description' => 'sometimes|string',
+            'items.*.image_url' => 'sometimes|string',
+            'items.*.price_info' => 'required|array',
+            'items.*.price_info.*.price' => 'required|integer',
+            'items.*.tax_info' => 'sometimes|array',
+            'items.*.nutritional_info' => 'sometimes|array',
+            'items.*.dish_info' => 'sometimes|array',
+            'items.*.visibility_info' => 'sometimes|array',
+
+            'menu_type' => [
+                'sometimes',
                 Rule::in(['MENU_TYPE_FULFILLMENT_DELIVERY', 'MENU_TYPE_FULFILLMENT_PICK_UP'])
             ]
         ]);
@@ -49,5 +76,9 @@ class MenuController extends Controller
 
         if ($store === null)
             return response()->json(['error' => 'Store not found'], 404);
+
+        $store->menus()->createMany($this->get('menus'));
+        $store->categories()->createMany($this->get('categories'));
+        $store->items()->createMany($this->get('items'));
     }
 }
