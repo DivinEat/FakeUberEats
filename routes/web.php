@@ -29,13 +29,9 @@ $router->group(['prefix' => '/eats'], function () use ($router) {
     $router->group(['prefix' => '/orders/{order_id}'], function () use ($router) {
         $router->get('/', 'OrderController@get');
 
-        $router->post('/accept_pos_order', 'OrderController@accept');
-
-        $router->post('/deny_pos_order', 'OrderController@deny');
-
         $router->post('/cancel', 'OrderController@cancel');
 
-        $router->patch('/cart', 'OrderController@cancel');
+        $router->patch('/cart', 'OrderController@cart');
     });
 });
 
