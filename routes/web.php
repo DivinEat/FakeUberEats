@@ -26,13 +26,12 @@ $router->group(['prefix' => '/eats'], function () use ($router) {
         });
     });
 
-    $router->group(['prefix' => '/orders/{order_id}'], function () use ($router) {
+    $router->group(['prefix' => '/orders/{orderID}'], function () use ($router) {
         $router->get('/', 'OrderController@get');
-
         $router->post('/cancel', 'OrderController@cancel');
-
-        $router->patch('/cart', 'OrderController@cart');
+        $router->post('/accept_pos_order', 'OrderController@accept');
+        $router->post('/deny_pos_order', 'OrderController@deny');
     });
 });
 
-$router->get('/', function () { echo 'dd';});
+$router->get('/', function () { echo 'Coucou c\'est nous';});

@@ -41,7 +41,7 @@ class OrderController extends Controller
         ]);
 
         /** @var Order $order */
-        $order = Order::find($orderID);
+        $order = Order::where('current_state', 'CREATED')->find($orderID);
 
         if ($order === null)
             return response()->json(['error' => 'Order not found'], 404);
@@ -61,7 +61,7 @@ class OrderController extends Controller
         $this->validate($request, ['reason' => 'required|string']);
 
         /** @var Order $order */
-        $order = Order::find($orderID);
+        $order = Order::where('current_state', 'CREATED')->find($orderID);
 
         if ($order === null)
             return response()->json(['error' => 'Order not found'], 404);
@@ -71,7 +71,7 @@ class OrderController extends Controller
             'reason' => $request->get('reason')
         ]);
 
-        return response([], 204);
+        return response()->json([], 204);
     }
 
     public function deny(string $orderID, Request $request): JsonResponse
@@ -84,7 +84,7 @@ class OrderController extends Controller
         ]);
 
         /** @var Order $order */
-        $order = Order::find($orderID);
+        $order = Order::where('current_state', 'CREATED')->find($orderID);
 
         if ($order === null)
             return response()->json(['error' => 'Order not found'], 404);
@@ -94,7 +94,7 @@ class OrderController extends Controller
             'reason' => $request->get('reason')
         ]);
 
-        return response([], 204);
+        return response()->json([], 204);
     }
 
     public function created(string $storeID, Request $request): JsonResponse

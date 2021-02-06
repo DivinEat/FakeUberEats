@@ -1,20 +1,41 @@
 <?php
 
-namespace Database\Seeders;
+
+namespace App\Console\Commands;
+
 
 use App\Models\Store;
 use Carbon\Carbon;
-use Illuminate\Database\Seeder;
+use Illuminate\Console\Command;
 use Illuminate\Support\Str;
 
-class OrdersSeeder extends Seeder
+class CreateOrder extends Command
 {
     /**
-     * Run the database seeds.
+     * The name and signature of the console command.
+     *
+     * @var string
+     */
+    protected $signature = 'order:create';
+
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Create an order';
+
+    /**
+     * Create a new command instance.
      *
      * @return void
      */
-    public function run()
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
+    public function handle()
     {
         /** @var Store $store */
         $store = Store::all()->first();
