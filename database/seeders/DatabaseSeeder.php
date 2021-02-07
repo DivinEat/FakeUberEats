@@ -16,57 +16,29 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        /** @var Store $store */
-        $store = Store::all()->first();
-
-        $store->orders()->create([
-            "display_id" => Str::random(5),
-            "external_reference_id" => "UberEatsOrder-" . Str::random(3),
-            "current_state" => "CREATED",
-            "type" => "DELIVERY_BY_UBER",
-            "store" => [
-                "id" => $store->store_id,
-                "name" => $store->name,
-                "external_reference_id" => "HARRY_123"
+        Store::create([
+            "name" => "DivinEat",
+            "store_id" => Str::uuid()->toString(),
+            "location" => [
+                "address" => "636 W 28th Street",
+                "address_2" => "Floor 3",
+                "city" => "New York",
+                "country" => "US",
+                "postal_code" => "10001",
+                "state" => "NY",
+                "latitude" => 40.7527198,
+                "longitude" => -74.00635
             ],
-            "eater" => [
-                "first_name" => 'El Morino',
-                "phone" => "+33 06 35 49 48 85",
+            "contact_emails" => [
+                "owner@example.com",
+                "announcements+uber@example.com",
+                "store-east@example.com"
             ],
-            "cart" => [
-                //TODO : Récupérer nos items
-                "items" => [
-                    [
-                        "id" => "Muffin",
-                        "instance_id" => "Muffin-Instance",
-                        "title" => "Fresh-baked muffin",
-                        "external_data" => "External data for muffin",
-                        "quantity" => 1,
-                        "price" => 3
-                    ]
-                ]
-            ],
-            "payment" => [
-                "charges" => [
-                    "total" => [
-                        "amount" => 650,
-                        "currency_code" => "USD",
-                        "formatted_amount" => "$6.50"
-                    ],
-                    "tax" => [
-                        "amount" => 52,
-                        "currency_code" => "USD",
-                        "formatted_amount" => "$0.52"
-                    ],
-                    "total_fee" => [
-                        "amount" => 697,
-                        "currency_code" => "USD",
-                        "formatted_amount" => "$6.97"
-                    ]
-                ]
-            ],
-            "placed_at" => Carbon::now()->toString(),
-            "estimated_ready_for_pickup_at" => Carbon::now()->addMinutes(30)->toString(),
+            "raw_hero_url" => "https =>//www.example.com/hero_url_east.png",
+            "price_bucket" => "$$$",
+            "avg_prep_time" => 5,
+            "status" => "active",
+            "partner_store_id" => "541324"
         ]);
     }
 }
