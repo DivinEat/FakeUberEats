@@ -9,3 +9,11 @@ services:
             - MONGO_INITDB_DATABASE=docker
             - MONGO_INITDB_ROOT_USERNAME=user
             - MONGO_INITDB_ROOT_PASSWORD=password
+    app:
+      build:
+        context: ./docker
+      image: 'laravelapp'
+      ports:
+        - 8000:80
+      volumes:
+        - ./:/var/www/html
