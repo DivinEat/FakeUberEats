@@ -75,12 +75,15 @@ class MenuController extends Controller
             ]
         ]);
 
-
         /** @var Store $store */
         $store = Store::find($storeID);
 
         if ($store === null)
             return response()->json(['error' => 'Store not found'], 404);
+
+        $store->menus()->delete();
+        $store->categories()->delete();
+        $store->items()->delete();
 
         $store->menus()->createMany($request->get('menus'));
         $store->categories()->createMany($request->get('categories'));
