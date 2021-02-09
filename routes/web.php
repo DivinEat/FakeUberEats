@@ -19,7 +19,7 @@ $router->group(['prefix' => '/eats'], function () use ($router) {
             $router->get('/menus', 'MenuController@index');
             $router->put('/menus', 'MenuController@upload');
 
-            $router->post('/menus/items/{item_id}', 'MenuItemController@update');
+            $router->post('/menus/items/{itemID}', 'MenuItemController@update');
 
             $router->get('/created-orders', 'OrderController@created');
             $router->get('/canceled-orders', 'OrderController@canceled');

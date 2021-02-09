@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
+use App\Models\Item;
 use App\Models\Menu;
 use App\Models\Store;
 use Illuminate\Http\Request;
@@ -26,7 +28,11 @@ class MenuController extends Controller
         if ($store === null)
             return response()->json(['error' => 'Store not found'], 404);
 
-        return response()->json(Menu::all()->where('menu_type', $menuType)->get());
+        return response()->json([
+            'menus' => Menu::all(),
+            'categories' => Category::all(),
+            'items' => Item::all(),
+        ]);
     }
 
     public function upload(string $storeID, Request $request)
@@ -76,8 +82,8 @@ class MenuController extends Controller
         if ($store === null)
             return response()->json(['error' => 'Store not found'], 404);
 
-        $store->menus()->createMany($this->get('menus'));
-        $store->categories()->createMany($this->get('categories'));
-        $store->items()->createMany($this->get('items'));
+        $store->menus()->createMany($request->get('menus'));
+        $store->categories()->createMany($request->get('categories'));
+        $store->items()->createMany($request->get('items'));
     }
 }

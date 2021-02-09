@@ -8,6 +8,6 @@ use Jenssegers\Mongodb\Eloquent\Model;
 
 class Item extends Model
 {
-    protected $primaryKey = 'item_id';
-
+    protected $primaryKey = 'id';
+    protected $guarded = [];
 }
