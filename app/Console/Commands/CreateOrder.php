@@ -92,16 +92,16 @@ class CreateOrder extends Command
         ]);
 
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $order->webhook);
+        curl_setopt($ch, CURLOPT_URL, $store->webhook);
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt(
             $ch,
             CURLOPT_POSTFIELDS,
-            "resource_href=http://217.160.64.31/FakeUberEats/eats/orders/".$order->display_id
+            "resource_href=http://217.160.64.31/FakeUberEats/eats/orders/".$order->_id
         );
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         $output = curl_exec($ch);
         curl_close($ch);
-        echo $output;
+        dd($output);
     }
 }
