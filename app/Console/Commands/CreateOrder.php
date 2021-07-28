@@ -92,7 +92,7 @@ class CreateOrder extends Command
         ]);
 
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $store->webhook);
+        curl_setopt($ch, CURLOPT_URL, $store->webhook_uber);
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt(
             $ch,
