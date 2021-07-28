@@ -53,9 +53,9 @@ class MenuController extends Controller
             'categories.*.title' => 'required|string',
             'categories.*.subtitle' => 'required|string',
             'categories.*.entities' => 'required|array',
-            'categories.*.entities.*.id' => 'required|string',
+            'categories.*.entities.*.id' => 'sometimes|string',
             'categories.*.entities.*.type' => [
-                'required',
+                'sometimes',
                 Rule::in('ITEM', 'MODIFIER_GROUP')
             ],
 
