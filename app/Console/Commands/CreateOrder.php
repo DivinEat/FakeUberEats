@@ -40,7 +40,8 @@ class CreateOrder extends Command
         /** @var Store $store */
         $store = Store::all()->first();
 
-        $store->orders()->create([
+        /** @var Order $order */
+        $order = $store->orders()->create([
             "display_id" => Str::random(5),
             "external_reference_id" => "UberEatsOrder-" . Str::random(3),
             "current_state" => "CREATED",
@@ -89,5 +90,18 @@ class CreateOrder extends Command
             "placed_at" => Carbon::now()->toString(),
             "estimated_ready_for_pickup_at" => Carbon::now()->addMinutes(30)->toString(),
         ]);
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $order->webhook);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt(
+            $ch,
+            CURLOPT_POSTFIELDS,
+            "resource_href=http://217.160.64.31/FakeUberEats/eats/orders/".$order->display_id
+        );
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        $output = curl_exec($ch);
+        curl_close($ch);
+        echo $output;
     }
 }
