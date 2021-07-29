@@ -38,32 +38,32 @@ class MenuController extends Controller
     public function upload(string $storeID, Request $request)
     {
         $this->validate($request, [
-            'menus' => 'required|array',
-            'menus.*.title' => 'required|string',
+            'menus' => 'sometimes|array',
+            'menus.*.title' => 'sometimes|string',
             'menus.*.subtitle' => 'sometimes|string',
             'menus.*.service_availability' => 'sometimes|array',
             'menus.*.service_availability.*.day_of_week' => [
                 'sometimes',
                 Rule::in('monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday')
             ],
-            'menus.*.category_ids' => 'required|array',
+            'menus.*.category_ids' => 'sometimes|array',
             'menus.*.category_ids.*' => 'string',
 
-            'categories' => 'required|array',
-            'categories.*.title' => 'required|string',
-            'categories.*.subtitle' => 'required|string',
-            'categories.*.entities' => 'required|array',
-            'categories.*.entities.*.id' => 'required|string',
+            'categories' => 'sometimes|array',
+            'categories.*.title' => 'sometimes|string',
+            'categories.*.subtitle' => 'sometimes|string',
+            'categories.*.entities' => 'sometimes|array',
+            'categories.*.entities.*.id' => 'sometimes|string',
             'categories.*.entities.*.type' => [
-                'required',
+                'sometimes',
                 Rule::in('ITEM', 'MODIFIER_GROUP')
             ],
 
-            'items' => 'required|array',
-            'items.*.title' => 'required|string',
+            'items' => 'sometimes|array',
+            'items.*.title' => 'sometimes|string',
             'items.*.description' => 'sometimes|string',
             'items.*.image_url' => 'sometimes|string',
-            'items.*.price_info' => 'required|integer',
+            'items.*.price_info' => 'sometimes|integer',
             'items.*.tax_info' => 'sometimes|array',
             'items.*.nutritional_info' => 'sometimes|array',
             'items.*.dish_info' => 'sometimes|array',
